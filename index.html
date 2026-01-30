@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NightcoreSMP | Minecraft Server</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #00e5ff; 
+            --secondary: #7000ff;
+            --bg: #050508;
+            --card-bg: rgba(15, 15, 25, 0.8);
+            --text: #ffffff;
+            --glow-color: rgba(0, 229, 255, 0.5);
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f7f9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text: #0a0a0f;
+            --glow-color: rgba(0, 229, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1000;
+            cursor: pointer;
+            background: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--primary);
+            color: #000;
+            font-size: 1.3rem;
+            border: none;
+        }
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+            background: radial-gradient(circle at 80% 50%, rgba(0, 229, 255, 0.1), transparent),
+                        linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+                        url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            gap: 40px;
+        }
+
+        .hero-left {
+            flex: 1.2;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .version-tag {
+            background: var(--primary);
+            color: #000;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 25px;
+            box-shadow: 0 0 20px var(--primary);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.8rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 45px;
+            border-left: 5px solid var(--primary);
+            padding-left: 20px;
+            max-width: 550px;
+        }
+
+        .ip-wrapper {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid var(--primary);
+            padding: 18px 30px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .ip-wrapper:hover {
+            background: var(--primary);
+            color: #000;
+            transform: scale(1.05);
+            box-shadow: 0 0 40px var(--glow-color);
+        }
+
+        .ip-wrapper i { font-size: 1.4rem; }
+        .ip-address { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.5rem; }
+
+        .hero-right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: zoomIn 1.2s ease-out;
+        }
+
+        /* LOGO CHUYỂN ĐỘNG LÊN XUỐNG TẠI ĐÂY */
+        .server-logo {
+            width: 100%;
+            max-width: 600px;
+            filter: drop-shadow(0 0 50px var(--glow-color));
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        .game-modes {
+            padding: 100px 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            background: var(--bg);
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 50px 30px;
+            border-radius: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .card i {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px var(--glow-color);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* KEYFRAMES */
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        #notification {
+            visibility: hidden;
+            background: var(--primary);
+            color: #000;
+            padding: 15px 35px;
+            border-radius: 12px;
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 800;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        #notification.show { visibility: visible; animation: popUp 0.4s ease-out; }
+
+        @keyframes popUp {
+            0% { bottom: 0; opacity: 0; }
+            100% { bottom: 40px; opacity: 1; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        @media (max-width: 1024px) {
+            header {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding: 100px 5% 50px;
+            }
+            .hero-left { text-align: center; }
+            .description { border-left: none; padding: 0; margin: 0 auto 40px; }
+            .server-logo { max-width: 350px; }
+            h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
+
+    <header>
+        <div class="hero-left">
+            <div class="version-tag">PHIÊN BẢN 1.16 - 1.21.X</div>
+            <h1>NIGHTCORE<br><span style="color: var(--primary);">SMP SERVER</span></h1>
+            <p class="description">
+                Hành trình sinh tồn, kiến tạo đế chế! 
+                Trải nghiệm cộng đồng Minecraft đẳng cấp với những tính năng độc quyền và sự kiện hấp dẫn mỗi tuần.
+            </p>
+            
+            <div class="ip-wrapper" onclick="copyIP()">
+                <i class="fas fa-bolt"></i>
+                <span class="ip-address" id="server-ip">nightcoresmp.xyz:30077</span>
+            </div>
+            <p style="margin-top: 15px; font-size: 0.85rem; opacity: 0.6;">Nhấn để sao chép địa chỉ tham gia ngay!</p>
+        </div>
+
+        <div class="hero-right">
+            <img src="https://media.discordapp.net/attachments/1464266079655170051/1464988571298566216/IMG_1353.png?ex=697d672d&is=697c15ad&hm=99ae7a16e6414bd753e461f4de2856d00f102816c7fef1512716e9d10c78a481&=&format=webp&quality=lossless&width=971&height=971" 
+                 class="server-logo" 
+                 alt="Nightcore SMP Logo">
+        </div>
+    </header>
+
+    <div class="game-modes">
+        <div class="card">
+            <i class="fas fa-cloud-moon"></i>
+            <h3>Skyblock</h3>
+            <p>Khởi đầu từ hòn đảo nhỏ giữa hư không, thể hiện kỹ năng sinh tồn và kinh doanh để trở thành triệu phú.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-seedling"></i>
+            <h3>SMP Cherry</h3>
+            <p>Vùng đất của những cây hoa anh đào tuyệt đẹp. Sinh tồn nhẹ nhàng, kết bạn và xây dựng mái ấm cộng đồng.</p>
+        </div>
+        <div class="card">
+            <i class="fas fa-khanda"></i>
+            <h3>Nightcore SMP</h3>
+            <p>Thử thách sinh tồn gốc với hệ thống rank, kỹ năng đặc biệt và những hầm ngục Dungeon khốc liệt nhất.</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; padding: 80px 20px;">
+        <h2 style="margin-bottom: 30px; font-family: 'Montserrat'; font-size: 2.2rem;">KẾT NỐI VỚI CHÚNG TÔI</h2>
+        <a href="https://discord.nightcoresmp.xyz" target="_blank" style="text-decoration: none; background: #5865F2; color: white; padding: 20px 50px; border-radius: 15px; font-weight: 800; font-size: 1.2rem; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 15px 30px rgba(88, 101, 242, 0.4);">
+            <i class="fab fa-discord"></i> THAM GIA DISCORD
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 NightcoreSMP Community. All Rights Reserved.</p>
+        <p style="font-size: 0.8rem; opacity: 0.5; margin-top: 10px;">Minecraft is a trademark of Mojang Synergies AB.</p>
+    </footer>
+
+    <div id="notification">Đã sao chép địa chỉ IP!</div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.setAttribute('data-theme', 'light');
+                icon.className = 'fas fa-sun';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.className = 'fas fa-moon';
+            }
+        }
+
+        function copyIP() {
+            const ip = document.getElementById('server-ip').innerText;
+            navigator.clipboard.writeText(ip).then(() => {
+                const toast = document.getElementById("notification");
+                toast.className = "show";
+                setTimeout(() => { toast.className = ""; }, 2500);
+            });
+        }
+    </script>
+</body>
+</html>
